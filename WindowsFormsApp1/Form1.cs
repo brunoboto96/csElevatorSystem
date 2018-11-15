@@ -22,21 +22,24 @@ namespace WindowsFormsApp1
             
             
             Console.WriteLine("Hellooo");
-            eSystem = new ElevatorSystem(this.elevator.Location.Y);
+            eSystem = new ElevatorSystem(this.elevator.Location.Y, this.elevator.Location.X);
 
             con = new OleDbConnection("Provider = Microsoft.Jet.OLEDB.4.0; Data Source = ElevatorDB.mdb");
 
             cmd = con.CreateCommand();
-            
+
+            this.elevator.Location = new Point(elevator.Location.X, this.elevator.Location.Y - 1);
+            this.eSystem.setY(this.elevator.Location.Y);
+
         }
 
         private void timerCheckCalls_Tick(object sender, EventArgs e)
         {
             
-            Console.WriteLine("\n\n*** Checking System ***\n");
+            //Console.WriteLine("\n\n*** Checking System ***\n");
 
             if (this.eSystem.isBusy()) {
-                Console.WriteLine("System is busy at the moment trying again later..\n");
+                //Console.WriteLine("System is busy at the moment trying again later..\n");
                 return;
             }
 
@@ -51,14 +54,7 @@ namespace WindowsFormsApp1
                 setLights(getFloorLights(), Color.Green);
                 doorOpenAnim.Start();
 
-
-                this.elevator.Visible = false;
-                //this.doorOpen.Visible = true;
-                this.doorR.Visible = true;
-                this.doorL.Visible = true;
-                this.doorOpen.Location = new Point(elevator.Location.X, elevator.Location.Y);
-                this.doorL.Location = new Point(elevator.Location.X, elevator.Location.Y);
-                this.doorR.Location = new Point(elevator.Location.X, elevator.Location.Y);
+                
 
 
 
@@ -114,14 +110,20 @@ namespace WindowsFormsApp1
             this.eSystem.setBusy(true);
             if (!eSystem.isMoving())
             {
+                this.elevator.Visible = false;
                 eSystem.setFloor();
                 updateLabels(Convert.ToString(eSystem.getFloor()));
                 timerTransition.Stop();
-                
+                Console.WriteLine("X-ray Elevator is now: " + this.elevator.Visible);
                 setLights(getFloorLights(), Color.Green);
+                setLights(this.controlPanelStatus, Color.Green);
                 timerDoorOpen.Start();
+                doorOpenAnim.Start();
                 Console.WriteLine(this.eSystem.getY());
             } else {
+                setLights(this.controlPanelStatus, Color.Red);
+                Console.WriteLine("X-ray Elevator is currently: " + this.elevator.Visible);
+                this.elevator.Visible = true;
                 if (eSystem.getY() > 350 || eSystem.getY() < 50)
                 {
                     eSystem.setMoving(false);
@@ -152,9 +154,10 @@ namespace WindowsFormsApp1
         private void timerDoorOpen_Tick(object sender, EventArgs e)
         {
             doorOpenAnim.Stop();
-            this.elevator.SizeMode = PictureBoxSizeMode.Normal;
+            //this.elevator.SizeMode = PictureBoxSizeMode.Normal;
             timerDoorOpen.Stop();
             timerDoorClosing.Start();
+            doorCloseAnim.Start();
             eSystem.clearFloorCalls(eSystem.getFloor());
             
         }
@@ -162,15 +165,18 @@ namespace WindowsFormsApp1
         private void timerDoorClosing_Tick(object sender, EventArgs e)
         {
             timerDoorClosing.Stop();
+            doorCloseAnim.Stop();
             if (eSystem.hasCalls(eSystem.getFloor()))
             {
                 timerDoorOpen.Start(); //method to start animation and timer
+                doorOpenAnim.Start();
             } else {
                 setLights(getFloorLights(), Color.Green);
+                setLights(this.controlPanelStatus, Color.DeepSkyBlue);
             
                 this.eSystem.setMoving(false);
 
-                this.elevator.SizeMode = PictureBoxSizeMode.StretchImage;
+                //this.elevator.SizeMode = PictureBoxSizeMode.StretchImage;
 
                 this.eSystem.setBusy(false); 
             }
@@ -198,35 +204,126 @@ namespace WindowsFormsApp1
         {
             this.labelFloor0.Text = t;
             this.labelFloor1.Text = t;
+            if (t == "1") {
+                this.controlPanelLabel0.BackColor = Color.Black;
+                this.controlPanelLabel1.BackColor = Color.Chartreuse;
+            } else {
+                this.controlPanelLabel0.BackColor = Color.Chartreuse;
+                this.controlPanelLabel1.BackColor = Color.Black;
+            }
 
         }
 
         private void doorOpenAnim_Tick(object sender, EventArgs e)
         {
-            int newDoorW = this.doorR.Size.Width - (90 / (this.timerDoorOpen.Interval / this.doorOpenAnim.Interval)) + 2;
-            this.doorR.Location = new Point(this.doorR.Location.X + (this.doorR.Size.Width / (this.timerDoorOpen.Interval / this.doorOpenAnim.Interval)) + 2, this.doorR.Location.Y);
-            this.doorR.Size = new System.Drawing.Size(this.doorR.Size.Width - (this.doorR.Size.Width/(this.timerDoorOpen.Interval/this.doorOpenAnim.Interval)), 160);
-            Console.WriteLine(newDoorW);
-            Console.WriteLine(this.timerDoorOpen.Interval + " " + this.doorOpenAnim.Interval);
+            Console.WriteLine("door x: " + this.doorR1.Location.X);
+            Console.WriteLine("door szie: " + this.doorR1.Size.Width);
+
+            if (eSystem.getFloor() == 1) {
+                if (doorR1.Size.Width > 0)
+                {
+                    this.doorR1.Size = new System.Drawing.Size(this.doorR1.Size.Width - 10, 160);
+                    this.doorR1.Location = new Point(this.doorR1.Location.X + 10, this.doorR1.Location.Y);
+                    this.doorL1.Size = new System.Drawing.Size(this.doorL1.Size.Width - 10, 160);
+                    //this.doorL1.Location = new Point(this.doorL1.Location.X - 10, this.doorL1.Location.Y);
+
+                }
+                else
+                {
+                    this.doorR1.Size = new System.Drawing.Size(0, 160);
+                    this.doorR1.Location = new Point(eSystem.getDoorRx() + eSystem.getDoorW(), this.doorR1.Location.Y);
+                    this.doorL1.Size = new System.Drawing.Size(0, 160);
+                    this.doorL1.Location = new Point(eSystem.getDoorLx(), this.doorL1.Location.Y);
+
+                    Console.WriteLine("doorrx: " + eSystem.getDoorRx());
+                }
+            } else {
+                if (doorR0.Size.Width > 0)
+                {
+                    this.doorR0.Size = new System.Drawing.Size(this.doorR0.Size.Width - 10, 160);
+                    this.doorR0.Location = new Point(this.doorR0.Location.X + 10, this.doorR0.Location.Y);
+                    this.doorL0.Size = new System.Drawing.Size(this.doorL0.Size.Width - 10, 160);
+                    //this.doorL0.Location = new Point(this.doorL0.Location.X - 10, this.doorL0.Location.Y);
+
+                }
+                else
+                {
+                    this.doorR0.Size = new System.Drawing.Size(0, 160);
+                    this.doorR0.Location = new Point(eSystem.getDoorRx() + eSystem.getDoorW(), this.doorR0.Location.Y);
+                    this.doorL0.Size = new System.Drawing.Size(0, 160);
+                    this.doorL0.Location = new Point(eSystem.getDoorLx(), this.doorL0.Location.Y);
+                }
+            }
+        }
+
+        private void doorCloseAnim_Tick(object sender, EventArgs e)
+        {
+            Console.WriteLine("Cdoor x: " + this.doorR1.Location.X);
+            if (eSystem.getFloor() == 1)
+            {
+                if (doorR1.Size.Width <= eSystem.getDoorW())
+                {
+                    this.doorR1.Size = new System.Drawing.Size(this.doorR1.Size.Width + 5, 160);
+                    this.doorR1.Location = new Point(this.doorR1.Location.X - 5, this.doorR1.Location.Y);
+                    this.doorL1.Size = new System.Drawing.Size(this.doorL1.Size.Width + 5, 160);
+                    //this.doorL1.Location = new Point(this.doorL1.Location.X + 10, this.doorL1.Location.Y);
+
+                }
+                else
+                {
+                    this.doorR1.Size = new System.Drawing.Size(eSystem.getDoorW(), 160);
+                    this.doorR1.Location = new Point(eSystem.getDoorRx(), this.doorR1.Location.Y);
+                    this.doorL1.Size = new System.Drawing.Size(eSystem.getDoorW(), 160);
+                    //this.doorL1.Location = new Point(eSystem.getDoorLx(), this.doorL1.Location.Y);
+                }
+            }
+            else
+            {
+                if (doorR0.Size.Width <= eSystem.getDoorW()) 
+                {
+                    this.doorR0.Size = new System.Drawing.Size(this.doorR0.Size.Width + 5, 160);
+                    this.doorR0.Location = new Point(this.doorR0.Location.X - 5, this.doorR0.Location.Y);
+                    this.doorL0.Size = new System.Drawing.Size(this.doorL0.Size.Width + 5, 160);
+                    //this.doorL0.Location = new Point(this.doorL0.Location.X - 10, this.doorL0.Location.Y);
+
+                }
+                else
+                {
+                    this.doorR0.Size = new System.Drawing.Size(eSystem.getDoorW(), 160);
+                    this.doorR0.Location = new Point(eSystem.getDoorRx(), this.doorR0.Location.Y);
+                    this.doorL0.Size = new System.Drawing.Size(eSystem.getDoorW(), 160);
+                    //this.doorL0.Location = new Point(eSystem.getDoorLx(), this.doorL0.Location.Y);
+                }
+            }
+        }
+
+        private void doorOpen_Click(object sender, EventArgs e)
+        {
 
         }
+
+
     }
 
     public class ElevatorSystem
     {
         //field members
-        private int Y, Floor, Calls0, Calls1;
+        private int Y, Floor, Calls0, Calls1, DoorW, DoorRx, DoorLx;
         private bool Open, Moving, Call0, Call1, MovingUp, Busy;
         private string Floor0State, Floor1State; //array/construct floorstates
         
         //img
 
         //Constructor
-        public ElevatorSystem(int y)
+        public ElevatorSystem(int y, int x)
         {
             setY(y);
             this.Floor = 0;
             setMoving(false);
+            this.DoorW = 45;
+            this.setFloor();
+            this.DoorLx = x;
+            this.DoorRx = x + DoorW;
         }
 
         //Getters and Setters
@@ -237,6 +334,11 @@ namespace WindowsFormsApp1
 
         public int getCalls0() => this.Calls0;
         public int getCalls1() => this.Calls1;
+
+        public int getDoorW() => this.DoorW;
+
+        public int getDoorLx() => this.DoorLx;
+        public int getDoorRx() => this.DoorRx;
 
 
         public int getFloor() => this.Floor;

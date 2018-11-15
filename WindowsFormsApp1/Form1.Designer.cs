@@ -38,9 +38,8 @@ namespace WindowsFormsApp1
             this.timerTransition = new System.Windows.Forms.Timer(this.components);
             this.call0 = new System.Windows.Forms.Button();
             this.call1 = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.elevator = new System.Windows.Forms.PictureBox();
+            this.wall1 = new System.Windows.Forms.PictureBox();
+            this.wall0 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.timerDoorOpen = new System.Windows.Forms.Timer(this.components);
             this.timerDoorClosing = new System.Windows.Forms.Timer(this.components);
@@ -54,27 +53,33 @@ namespace WindowsFormsApp1
             this.controlPanelLabel1 = new System.Windows.Forms.Label();
             this.controlPanelLabel0 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.doorOpen = new System.Windows.Forms.PictureBox();
-            this.doorR = new System.Windows.Forms.PictureBox();
-            this.doorL = new System.Windows.Forms.PictureBox();
-            this.doorOpenAnim = new System.Windows.Forms.Timer(this.components);
-            this.elevatorfacade = new System.Windows.Forms.PictureBox();
+            this.doorOpen1 = new System.Windows.Forms.PictureBox();
+            this.doorR1 = new System.Windows.Forms.PictureBox();
+            this.doorL1 = new System.Windows.Forms.PictureBox();
+            this.elevatorfacade0 = new System.Windows.Forms.PictureBox();
             this.elevatorfacade1 = new System.Windows.Forms.PictureBox();
-            this.pictureBox4 = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.elevator)).BeginInit();
+            this.doorL0 = new System.Windows.Forms.PictureBox();
+            this.doorR0 = new System.Windows.Forms.PictureBox();
+            this.doorOpen0 = new System.Windows.Forms.PictureBox();
+            this.elevator = new System.Windows.Forms.PictureBox();
+            this.doorOpenAnim = new System.Windows.Forms.Timer(this.components);
+            this.doorCloseAnim = new System.Windows.Forms.Timer(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.wall1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.wall0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.light1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.light0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.controlPanelBody)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.controlPanelStatus)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.doorOpen)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.doorR)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.doorL)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.elevatorfacade)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.doorOpen1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.doorR1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.doorL1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.elevatorfacade0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.elevatorfacade1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.doorL0)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.doorR0)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.doorOpen0)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.elevator)).BeginInit();
             this.SuspendLayout();
             // 
             // timerTransition
@@ -86,7 +91,7 @@ namespace WindowsFormsApp1
             // 
             this.call0.FlatAppearance.BorderSize = 2;
             this.call0.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.call0.Location = new System.Drawing.Point(102, 432);
+            this.call0.Location = new System.Drawing.Point(95, 432);
             this.call0.Name = "call0";
             this.call0.Size = new System.Drawing.Size(27, 23);
             this.call0.TabIndex = 1;
@@ -98,7 +103,7 @@ namespace WindowsFormsApp1
             // 
             this.call1.FlatAppearance.BorderSize = 2;
             this.call1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.call1.Location = new System.Drawing.Point(102, 123);
+            this.call1.Location = new System.Drawing.Point(95, 123);
             this.call1.Name = "call1";
             this.call1.Size = new System.Drawing.Size(27, 23);
             this.call1.TabIndex = 1;
@@ -106,35 +111,23 @@ namespace WindowsFormsApp1
             this.call1.UseVisualStyleBackColor = true;
             this.call1.Click += new System.EventHandler(this.call1_Click);
             // 
-            // pictureBox1
+            // wall1
             // 
-            this.pictureBox1.BackColor = System.Drawing.SystemColors.Desktop;
-            this.pictureBox1.Location = new System.Drawing.Point(80, 30);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(200, 200);
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
+            this.wall1.BackColor = System.Drawing.SystemColors.Desktop;
+            this.wall1.Location = new System.Drawing.Point(80, 30);
+            this.wall1.Name = "wall1";
+            this.wall1.Size = new System.Drawing.Size(200, 200);
+            this.wall1.TabIndex = 1;
+            this.wall1.TabStop = false;
             // 
-            // pictureBox2
+            // wall0
             // 
-            this.pictureBox2.BackColor = System.Drawing.SystemColors.Desktop;
-            this.pictureBox2.Location = new System.Drawing.Point(80, 330);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(200, 200);
-            this.pictureBox2.TabIndex = 0;
-            this.pictureBox2.TabStop = false;
-            // 
-            // elevator
-            // 
-            this.elevator.Image = ((System.Drawing.Image)(resources.GetObject("elevator.Image")));
-            this.elevator.Location = new System.Drawing.Point(135, 350);
-            this.elevator.MaximumSize = new System.Drawing.Size(90, 160);
-            this.elevator.MinimumSize = new System.Drawing.Size(90, 160);
-            this.elevator.Name = "elevator";
-            this.elevator.Size = new System.Drawing.Size(90, 160);
-            this.elevator.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.elevator.TabIndex = 0;
-            this.elevator.TabStop = false;
+            this.wall0.BackColor = System.Drawing.SystemColors.Desktop;
+            this.wall0.Location = new System.Drawing.Point(80, 330);
+            this.wall0.Name = "wall0";
+            this.wall0.Size = new System.Drawing.Size(200, 200);
+            this.wall0.TabIndex = 1;
+            this.wall0.TabStop = false;
             // 
             // pictureBox3
             // 
@@ -159,7 +152,7 @@ namespace WindowsFormsApp1
             // 
             this.light1.BackColor = System.Drawing.Color.Lime;
             this.light1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.light1.Location = new System.Drawing.Point(95, 116);
+            this.light1.Location = new System.Drawing.Point(88, 116);
             this.light1.Name = "light1";
             this.light1.Size = new System.Drawing.Size(40, 38);
             this.light1.TabIndex = 2;
@@ -169,7 +162,7 @@ namespace WindowsFormsApp1
             // 
             this.light0.BackColor = System.Drawing.Color.Lime;
             this.light0.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.light0.Location = new System.Drawing.Point(95, 425);
+            this.light0.Location = new System.Drawing.Point(88, 425);
             this.light0.Name = "light0";
             this.light0.Size = new System.Drawing.Size(40, 38);
             this.light0.TabIndex = 2;
@@ -231,7 +224,7 @@ namespace WindowsFormsApp1
             this.controlPanelLabel1.Name = "controlPanelLabel1";
             this.controlPanelLabel1.Size = new System.Drawing.Size(13, 13);
             this.controlPanelLabel1.TabIndex = 3;
-            this.controlPanelLabel1.Text = "0";
+            this.controlPanelLabel1.Text = "1";
             // 
             // controlPanelLabel0
             // 
@@ -254,54 +247,49 @@ namespace WindowsFormsApp1
             this.label1.TabIndex = 6;
             this.label1.Text = "Control Panel";
             // 
-            // doorOpen
+            // doorOpen1
             // 
-            this.doorOpen.Image = ((System.Drawing.Image)(resources.GetObject("doorOpen.Image")));
-            this.doorOpen.Location = new System.Drawing.Point(322, 350);
-            this.doorOpen.Name = "doorOpen";
-            this.doorOpen.Size = new System.Drawing.Size(90, 160);
-            this.doorOpen.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.doorOpen.TabIndex = 7;
-            this.doorOpen.TabStop = false;
-            this.doorOpen.Visible = false;
+            this.doorOpen1.Image = ((System.Drawing.Image)(resources.GetObject("doorOpen1.Image")));
+            this.doorOpen1.Location = new System.Drawing.Point(135, 51);
+            this.doorOpen1.Name = "doorOpen1";
+            this.doorOpen1.Size = new System.Drawing.Size(90, 160);
+            this.doorOpen1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.doorOpen1.TabIndex = 7;
+            this.doorOpen1.TabStop = false;
+            this.doorOpen1.Click += new System.EventHandler(this.doorOpen_Click);
             // 
-            // doorR
+            // doorR1
             // 
-            this.doorR.BackColor = System.Drawing.Color.Transparent;
-            this.doorR.Image = ((System.Drawing.Image)(resources.GetObject("doorR.Image")));
-            this.doorR.Location = new System.Drawing.Point(135, 51);
-            this.doorR.Name = "doorR";
-            this.doorR.Size = new System.Drawing.Size(90, 160);
-            this.doorR.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.doorR.TabIndex = 7;
-            this.doorR.TabStop = false;
+            this.doorR1.BackColor = System.Drawing.Color.Transparent;
+            this.doorR1.Image = ((System.Drawing.Image)(resources.GetObject("doorR1.Image")));
+            this.doorR1.Location = new System.Drawing.Point(180, 51);
+            this.doorR1.Name = "doorR1";
+            this.doorR1.Size = new System.Drawing.Size(45, 160);
+            this.doorR1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.doorR1.TabIndex = 7;
+            this.doorR1.TabStop = false;
             // 
-            // doorL
+            // doorL1
             // 
-            this.doorL.BackColor = System.Drawing.Color.Transparent;
-            this.doorL.Image = ((System.Drawing.Image)(resources.GetObject("doorL.Image")));
-            this.doorL.Location = new System.Drawing.Point(135, 51);
-            this.doorL.Name = "doorL";
-            this.doorL.Size = new System.Drawing.Size(90, 160);
-            this.doorL.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.doorL.TabIndex = 7;
-            this.doorL.TabStop = false;
+            this.doorL1.BackColor = System.Drawing.Color.Transparent;
+            this.doorL1.Image = ((System.Drawing.Image)(resources.GetObject("doorL1.Image")));
+            this.doorL1.Location = new System.Drawing.Point(135, 51);
+            this.doorL1.Name = "doorL1";
+            this.doorL1.Size = new System.Drawing.Size(45, 160);
+            this.doorL1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.doorL1.TabIndex = 7;
+            this.doorL1.TabStop = false;
             // 
-            // doorOpenAnim
+            // elevatorfacade0
             // 
-            this.doorOpenAnim.Interval = 50;
-            this.doorOpenAnim.Tick += new System.EventHandler(this.doorOpenAnim_Tick);
-            // 
-            // elevatorfacade
-            // 
-            this.elevatorfacade.Image = ((System.Drawing.Image)(resources.GetObject("elevatorfacade.Image")));
-            this.elevatorfacade.Location = new System.Drawing.Point(128, 345);
-            this.elevatorfacade.Name = "elevatorfacade";
-            this.elevatorfacade.Size = new System.Drawing.Size(103, 166);
-            this.elevatorfacade.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.elevatorfacade.TabIndex = 7;
-            this.elevatorfacade.TabStop = false;
-            this.elevatorfacade.Visible = false;
+            this.elevatorfacade0.Image = ((System.Drawing.Image)(resources.GetObject("elevatorfacade0.Image")));
+            this.elevatorfacade0.Location = new System.Drawing.Point(128, 345);
+            this.elevatorfacade0.Name = "elevatorfacade0";
+            this.elevatorfacade0.Size = new System.Drawing.Size(103, 166);
+            this.elevatorfacade0.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.elevatorfacade0.TabIndex = 7;
+            this.elevatorfacade0.TabStop = false;
+            this.elevatorfacade0.Visible = false;
             // 
             // elevatorfacade1
             // 
@@ -314,29 +302,75 @@ namespace WindowsFormsApp1
             this.elevatorfacade1.TabIndex = 7;
             this.elevatorfacade1.TabStop = false;
             // 
-            // pictureBox4
+            // doorL0
             // 
-            this.pictureBox4.BackColor = System.Drawing.SystemColors.Desktop;
-            this.pictureBox4.Location = new System.Drawing.Point(231, 32);
-            this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(47, 198);
-            this.pictureBox4.TabIndex = 8;
-            this.pictureBox4.TabStop = false;
+            this.doorL0.BackColor = System.Drawing.Color.Transparent;
+            this.doorL0.Image = ((System.Drawing.Image)(resources.GetObject("doorL0.Image")));
+            this.doorL0.Location = new System.Drawing.Point(135, 351);
+            this.doorL0.Name = "doorL0";
+            this.doorL0.Size = new System.Drawing.Size(45, 160);
+            this.doorL0.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.doorL0.TabIndex = 7;
+            this.doorL0.TabStop = false;
+            // 
+            // doorR0
+            // 
+            this.doorR0.BackColor = System.Drawing.Color.Transparent;
+            this.doorR0.Image = ((System.Drawing.Image)(resources.GetObject("doorR0.Image")));
+            this.doorR0.Location = new System.Drawing.Point(180, 351);
+            this.doorR0.Name = "doorR0";
+            this.doorR0.Size = new System.Drawing.Size(45, 160);
+            this.doorR0.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.doorR0.TabIndex = 7;
+            this.doorR0.TabStop = false;
+            // 
+            // doorOpen0
+            // 
+            this.doorOpen0.Image = ((System.Drawing.Image)(resources.GetObject("doorOpen0.Image")));
+            this.doorOpen0.Location = new System.Drawing.Point(135, 351);
+            this.doorOpen0.Name = "doorOpen0";
+            this.doorOpen0.Size = new System.Drawing.Size(90, 160);
+            this.doorOpen0.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.doorOpen0.TabIndex = 7;
+            this.doorOpen0.TabStop = false;
+            this.doorOpen0.Click += new System.EventHandler(this.doorOpen_Click);
+            // 
+            // elevator
+            // 
+            this.elevator.Image = ((System.Drawing.Image)(resources.GetObject("elevator.Image")));
+            this.elevator.Location = new System.Drawing.Point(135, 351);
+            this.elevator.Name = "elevator";
+            this.elevator.Size = new System.Drawing.Size(90, 160);
+            this.elevator.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.elevator.TabIndex = 0;
+            this.elevator.TabStop = false;
+            this.elevator.Visible = false;
+            // 
+            // doorOpenAnim
+            // 
+            this.doorOpenAnim.Tick += new System.EventHandler(this.doorOpenAnim_Tick);
+            // 
+            // doorCloseAnim
+            // 
+            this.doorCloseAnim.Tick += new System.EventHandler(this.doorCloseAnim_Tick);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(896, 623);
+            this.Controls.Add(this.doorR0);
+            this.Controls.Add(this.doorL0);
+            this.Controls.Add(this.doorOpen0);
+            this.Controls.Add(this.labelFloor0);
+            this.Controls.Add(this.doorL1);
+            this.Controls.Add(this.doorR1);
+            this.Controls.Add(this.elevator);
+            this.Controls.Add(this.doorOpen1);
             this.Controls.Add(this.call1);
             this.Controls.Add(this.light1);
-            this.Controls.Add(this.pictureBox4);
-            this.Controls.Add(this.doorR);
-            this.Controls.Add(this.doorL);
             this.Controls.Add(this.elevatorfacade1);
-            this.Controls.Add(this.elevator);
-            this.Controls.Add(this.elevatorfacade);
-            this.Controls.Add(this.doorOpen);
+            this.Controls.Add(this.elevatorfacade0);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.controlPanelLabel0);
             this.Controls.Add(this.controlPanelLabel1);
@@ -345,26 +379,27 @@ namespace WindowsFormsApp1
             this.Controls.Add(this.call0);
             this.Controls.Add(this.light0);
             this.Controls.Add(this.labelFloor1);
-            this.Controls.Add(this.labelFloor0);
             this.Controls.Add(this.pictureBox3);
-            this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.pictureBox2);
+            this.Controls.Add(this.wall1);
+            this.Controls.Add(this.wall0);
             this.Name = "Form1";
             this.Text = "\\";
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.elevator)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.wall1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.wall0)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.light1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.light0)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.controlPanelBody)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.controlPanelStatus)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.doorOpen)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.doorR)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.doorL)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.elevatorfacade)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.doorOpen1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.doorR1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.doorL1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.elevatorfacade0)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.elevatorfacade1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.doorL0)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.doorR0)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.doorOpen0)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.elevator)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -396,9 +431,8 @@ namespace WindowsFormsApp1
         private System.Windows.Forms.Timer timerTransition;
         private System.Windows.Forms.Button call0;
         private System.Windows.Forms.Button call1;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.PictureBox elevator;
+        private System.Windows.Forms.PictureBox wall1;
+        private System.Windows.Forms.PictureBox wall0;
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.Timer timerDoorOpen;
         private System.Windows.Forms.Timer timerDoorClosing;
@@ -412,13 +446,17 @@ namespace WindowsFormsApp1
         private System.Windows.Forms.Label controlPanelLabel1;
         private System.Windows.Forms.Label controlPanelLabel0;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.PictureBox doorOpen;
-        private System.Windows.Forms.PictureBox doorR;
-        private System.Windows.Forms.PictureBox doorL;
+        private System.Windows.Forms.PictureBox doorOpen1;
+        private System.Windows.Forms.PictureBox doorR1;
+        private System.Windows.Forms.PictureBox doorL1;
         private System.Windows.Forms.Timer doorOpenAnim;
-        private System.Windows.Forms.PictureBox elevatorfacade;
+        private System.Windows.Forms.PictureBox elevatorfacade0;
         private System.Windows.Forms.PictureBox elevatorfacade1;
-        private System.Windows.Forms.PictureBox pictureBox4;
+        private System.Windows.Forms.PictureBox doorL0;
+        private System.Windows.Forms.PictureBox doorR0;
+        private System.Windows.Forms.PictureBox doorOpen0;
+        private System.Windows.Forms.PictureBox elevator;
+        private System.Windows.Forms.Timer doorCloseAnim;
     }
 
    
