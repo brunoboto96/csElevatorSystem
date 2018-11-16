@@ -64,6 +64,27 @@ namespace ElevatorSystem
             this.elevator = new System.Windows.Forms.PictureBox();
             this.doorOpenAnim = new System.Windows.Forms.Timer(this.components);
             this.doorCloseAnim = new System.Windows.Forms.Timer(this.components);
+            this.elevatorDBBindingNavigator = new System.Windows.Forms.BindingNavigator(this.components);
+            this.bindingNavigatorAddNewItem = new System.Windows.Forms.ToolStripButton();
+            this.elevatorDBBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.elevatorDBDataSet = new ElevatorDBDataSet();
+            this.bindingNavigatorCountItem = new System.Windows.Forms.ToolStripLabel();
+            this.bindingNavigatorDeleteItem = new System.Windows.Forms.ToolStripButton();
+            this.bindingNavigatorMoveFirstItem = new System.Windows.Forms.ToolStripButton();
+            this.bindingNavigatorMovePreviousItem = new System.Windows.Forms.ToolStripButton();
+            this.bindingNavigatorSeparator = new System.Windows.Forms.ToolStripSeparator();
+            this.bindingNavigatorPositionItem = new System.Windows.Forms.ToolStripTextBox();
+            this.bindingNavigatorSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.bindingNavigatorMoveNextItem = new System.Windows.Forms.ToolStripButton();
+            this.bindingNavigatorMoveLastItem = new System.Windows.Forms.ToolStripButton();
+            this.bindingNavigatorSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.elevatorDBBindingNavigatorSaveItem = new System.Windows.Forms.ToolStripButton();
+            this.elevatorDBDataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.elevatorDBTableAdapter = new ElevatorDBDataSetTableAdapters.ElevatorDBTableAdapter();
+            this.tableAdapterManager = new ElevatorDBDataSetTableAdapters.TableAdapterManager();
             ((System.ComponentModel.ISupportInitialize)(this.wall1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.wall0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -80,6 +101,11 @@ namespace ElevatorSystem
             ((System.ComponentModel.ISupportInitialize)(this.doorR0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.doorOpen0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.elevator)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.elevatorDBBindingNavigator)).BeginInit();
+            this.elevatorDBBindingNavigator.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.elevatorDBBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.elevatorDBDataSet)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.elevatorDBDataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // timerTransition
@@ -195,12 +221,13 @@ namespace ElevatorSystem
             this.labelFloor1.Size = new System.Drawing.Size(13, 13);
             this.labelFloor1.TabIndex = 3;
             this.labelFloor1.Text = "0";
+            this.labelFloor1.Click += new System.EventHandler(this.labelFloor1_Click);
             // 
             // controlPanelBody
             // 
             this.controlPanelBody.BackColor = System.Drawing.SystemColors.ControlLight;
             this.controlPanelBody.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.controlPanelBody.Location = new System.Drawing.Point(455, 228);
+            this.controlPanelBody.Location = new System.Drawing.Point(320, 213);
             this.controlPanelBody.Name = "controlPanelBody";
             this.controlPanelBody.Size = new System.Drawing.Size(63, 117);
             this.controlPanelBody.TabIndex = 4;
@@ -210,7 +237,7 @@ namespace ElevatorSystem
             // 
             this.controlPanelStatus.BackColor = System.Drawing.Color.DeepSkyBlue;
             this.controlPanelStatus.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.controlPanelStatus.Location = new System.Drawing.Point(473, 243);
+            this.controlPanelStatus.Location = new System.Drawing.Point(338, 228);
             this.controlPanelStatus.Name = "controlPanelStatus";
             this.controlPanelStatus.Size = new System.Drawing.Size(30, 30);
             this.controlPanelStatus.TabIndex = 5;
@@ -220,7 +247,7 @@ namespace ElevatorSystem
             // 
             this.controlPanelLabel1.AutoSize = true;
             this.controlPanelLabel1.BackColor = System.Drawing.Color.Black;
-            this.controlPanelLabel1.Location = new System.Drawing.Point(481, 292);
+            this.controlPanelLabel1.Location = new System.Drawing.Point(346, 277);
             this.controlPanelLabel1.Name = "controlPanelLabel1";
             this.controlPanelLabel1.Size = new System.Drawing.Size(13, 13);
             this.controlPanelLabel1.TabIndex = 3;
@@ -230,7 +257,7 @@ namespace ElevatorSystem
             // 
             this.controlPanelLabel0.AutoSize = true;
             this.controlPanelLabel0.BackColor = System.Drawing.Color.Chartreuse;
-            this.controlPanelLabel0.Location = new System.Drawing.Point(481, 317);
+            this.controlPanelLabel0.Location = new System.Drawing.Point(346, 302);
             this.controlPanelLabel0.Name = "controlPanelLabel0";
             this.controlPanelLabel0.Size = new System.Drawing.Size(13, 13);
             this.controlPanelLabel0.TabIndex = 3;
@@ -241,7 +268,7 @@ namespace ElevatorSystem
             this.label1.AutoSize = true;
             this.label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(446, 203);
+            this.label1.Location = new System.Drawing.Point(311, 188);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(85, 15);
             this.label1.TabIndex = 6;
@@ -256,7 +283,6 @@ namespace ElevatorSystem
             this.doorOpen1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.doorOpen1.TabIndex = 7;
             this.doorOpen1.TabStop = false;
-            this.doorOpen1.Click += new System.EventHandler(this.doorOpen_Click);
             // 
             // doorR1
             // 
@@ -289,7 +315,6 @@ namespace ElevatorSystem
             this.elevatorfacade0.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.elevatorfacade0.TabIndex = 7;
             this.elevatorfacade0.TabStop = false;
-            this.elevatorfacade0.Visible = false;
             // 
             // elevatorfacade1
             // 
@@ -323,7 +348,6 @@ namespace ElevatorSystem
             this.doorR0.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.doorR0.TabIndex = 7;
             this.doorR0.TabStop = false;
-            this.doorR0.Click += new System.EventHandler(this.doorR0_Click);
             // 
             // doorOpen0
             // 
@@ -334,7 +358,6 @@ namespace ElevatorSystem
             this.doorOpen0.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.doorOpen0.TabIndex = 7;
             this.doorOpen0.TabStop = false;
-            this.doorOpen0.Click += new System.EventHandler(this.doorOpen_Click);
             // 
             // elevator
             // 
@@ -355,11 +378,198 @@ namespace ElevatorSystem
             // 
             this.doorCloseAnim.Tick += new System.EventHandler(this.doorCloseAnim_Tick);
             // 
+            // elevatorDBBindingNavigator
+            // 
+            this.elevatorDBBindingNavigator.AddNewItem = this.bindingNavigatorAddNewItem;
+            this.elevatorDBBindingNavigator.BindingSource = this.elevatorDBBindingSource;
+            this.elevatorDBBindingNavigator.CountItem = this.bindingNavigatorCountItem;
+            this.elevatorDBBindingNavigator.DeleteItem = this.bindingNavigatorDeleteItem;
+            this.elevatorDBBindingNavigator.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.bindingNavigatorMoveFirstItem,
+            this.bindingNavigatorMovePreviousItem,
+            this.bindingNavigatorSeparator,
+            this.bindingNavigatorPositionItem,
+            this.bindingNavigatorCountItem,
+            this.bindingNavigatorSeparator1,
+            this.bindingNavigatorMoveNextItem,
+            this.bindingNavigatorMoveLastItem,
+            this.bindingNavigatorSeparator2,
+            this.bindingNavigatorAddNewItem,
+            this.bindingNavigatorDeleteItem,
+            this.elevatorDBBindingNavigatorSaveItem});
+            this.elevatorDBBindingNavigator.Location = new System.Drawing.Point(0, 0);
+            this.elevatorDBBindingNavigator.MoveFirstItem = this.bindingNavigatorMoveFirstItem;
+            this.elevatorDBBindingNavigator.MoveLastItem = this.bindingNavigatorMoveLastItem;
+            this.elevatorDBBindingNavigator.MoveNextItem = this.bindingNavigatorMoveNextItem;
+            this.elevatorDBBindingNavigator.MovePreviousItem = this.bindingNavigatorMovePreviousItem;
+            this.elevatorDBBindingNavigator.Name = "elevatorDBBindingNavigator";
+            this.elevatorDBBindingNavigator.PositionItem = this.bindingNavigatorPositionItem;
+            this.elevatorDBBindingNavigator.Size = new System.Drawing.Size(904, 25);
+            this.elevatorDBBindingNavigator.TabIndex = 10;
+            this.elevatorDBBindingNavigator.Text = "bindingNavigator1";
+            // 
+            // bindingNavigatorAddNewItem
+            // 
+            this.bindingNavigatorAddNewItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bindingNavigatorAddNewItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorAddNewItem.Image")));
+            this.bindingNavigatorAddNewItem.Name = "bindingNavigatorAddNewItem";
+            this.bindingNavigatorAddNewItem.RightToLeftAutoMirrorImage = true;
+            this.bindingNavigatorAddNewItem.Size = new System.Drawing.Size(23, 22);
+            this.bindingNavigatorAddNewItem.Text = "Add new";
+            // 
+            // elevatorDBBindingSource
+            // 
+            this.elevatorDBBindingSource.DataMember = "ElevatorDB";
+            this.elevatorDBBindingSource.DataSource = this.elevatorDBDataSet;
+            // 
+            // elevatorDBDataSet
+            // 
+            this.elevatorDBDataSet.DataSetName = "ElevatorDBDataSet";
+            this.elevatorDBDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // bindingNavigatorCountItem
+            // 
+            this.bindingNavigatorCountItem.Name = "bindingNavigatorCountItem";
+            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(35, 22);
+            this.bindingNavigatorCountItem.Text = "of {0}";
+            this.bindingNavigatorCountItem.ToolTipText = "Total number of items";
+            // 
+            // bindingNavigatorDeleteItem
+            // 
+            this.bindingNavigatorDeleteItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bindingNavigatorDeleteItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorDeleteItem.Image")));
+            this.bindingNavigatorDeleteItem.Name = "bindingNavigatorDeleteItem";
+            this.bindingNavigatorDeleteItem.RightToLeftAutoMirrorImage = true;
+            this.bindingNavigatorDeleteItem.Size = new System.Drawing.Size(23, 22);
+            this.bindingNavigatorDeleteItem.Text = "Delete";
+            // 
+            // bindingNavigatorMoveFirstItem
+            // 
+            this.bindingNavigatorMoveFirstItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bindingNavigatorMoveFirstItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveFirstItem.Image")));
+            this.bindingNavigatorMoveFirstItem.Name = "bindingNavigatorMoveFirstItem";
+            this.bindingNavigatorMoveFirstItem.RightToLeftAutoMirrorImage = true;
+            this.bindingNavigatorMoveFirstItem.Size = new System.Drawing.Size(23, 22);
+            this.bindingNavigatorMoveFirstItem.Text = "Move first";
+            // 
+            // bindingNavigatorMovePreviousItem
+            // 
+            this.bindingNavigatorMovePreviousItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bindingNavigatorMovePreviousItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMovePreviousItem.Image")));
+            this.bindingNavigatorMovePreviousItem.Name = "bindingNavigatorMovePreviousItem";
+            this.bindingNavigatorMovePreviousItem.RightToLeftAutoMirrorImage = true;
+            this.bindingNavigatorMovePreviousItem.Size = new System.Drawing.Size(23, 22);
+            this.bindingNavigatorMovePreviousItem.Text = "Move previous";
+            // 
+            // bindingNavigatorSeparator
+            // 
+            this.bindingNavigatorSeparator.Name = "bindingNavigatorSeparator";
+            this.bindingNavigatorSeparator.Size = new System.Drawing.Size(6, 25);
+            // 
+            // bindingNavigatorPositionItem
+            // 
+            this.bindingNavigatorPositionItem.AccessibleName = "Position";
+            this.bindingNavigatorPositionItem.AutoSize = false;
+            this.bindingNavigatorPositionItem.Name = "bindingNavigatorPositionItem";
+            this.bindingNavigatorPositionItem.Size = new System.Drawing.Size(50, 23);
+            this.bindingNavigatorPositionItem.Text = "0";
+            this.bindingNavigatorPositionItem.ToolTipText = "Current position";
+            // 
+            // bindingNavigatorSeparator1
+            // 
+            this.bindingNavigatorSeparator1.Name = "bindingNavigatorSeparator1";
+            this.bindingNavigatorSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // bindingNavigatorMoveNextItem
+            // 
+            this.bindingNavigatorMoveNextItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bindingNavigatorMoveNextItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveNextItem.Image")));
+            this.bindingNavigatorMoveNextItem.Name = "bindingNavigatorMoveNextItem";
+            this.bindingNavigatorMoveNextItem.RightToLeftAutoMirrorImage = true;
+            this.bindingNavigatorMoveNextItem.Size = new System.Drawing.Size(23, 22);
+            this.bindingNavigatorMoveNextItem.Text = "Move next";
+            // 
+            // bindingNavigatorMoveLastItem
+            // 
+            this.bindingNavigatorMoveLastItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bindingNavigatorMoveLastItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveLastItem.Image")));
+            this.bindingNavigatorMoveLastItem.Name = "bindingNavigatorMoveLastItem";
+            this.bindingNavigatorMoveLastItem.RightToLeftAutoMirrorImage = true;
+            this.bindingNavigatorMoveLastItem.Size = new System.Drawing.Size(23, 22);
+            this.bindingNavigatorMoveLastItem.Text = "Move last";
+            // 
+            // bindingNavigatorSeparator2
+            // 
+            this.bindingNavigatorSeparator2.Name = "bindingNavigatorSeparator2";
+            this.bindingNavigatorSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
+            // elevatorDBBindingNavigatorSaveItem
+            // 
+            this.elevatorDBBindingNavigatorSaveItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.elevatorDBBindingNavigatorSaveItem.Image = ((System.Drawing.Image)(resources.GetObject("elevatorDBBindingNavigatorSaveItem.Image")));
+            this.elevatorDBBindingNavigatorSaveItem.Name = "elevatorDBBindingNavigatorSaveItem";
+            this.elevatorDBBindingNavigatorSaveItem.Size = new System.Drawing.Size(23, 22);
+            this.elevatorDBBindingNavigatorSaveItem.Text = "Save Data";
+            this.elevatorDBBindingNavigatorSaveItem.Click += new System.EventHandler(this.elevatorDBBindingNavigatorSaveItem_Click);
+            // 
+            // elevatorDBDataGridView1
+            // 
+            this.elevatorDBDataGridView1.AllowUserToAddRows = false;
+            this.elevatorDBDataGridView1.AllowUserToDeleteRows = false;
+            this.elevatorDBDataGridView1.AllowUserToResizeRows = false;
+            this.elevatorDBDataGridView1.AutoGenerateColumns = false;
+            this.elevatorDBDataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.elevatorDBDataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn4,
+            this.dataGridViewTextBoxColumn5,
+            this.dataGridViewTextBoxColumn6});
+            this.elevatorDBDataGridView1.DataSource = this.elevatorDBBindingSource;
+            this.elevatorDBDataGridView1.Location = new System.Drawing.Point(414, 91);
+            this.elevatorDBDataGridView1.MultiSelect = false;
+            this.elevatorDBDataGridView1.Name = "elevatorDBDataGridView1";
+            this.elevatorDBDataGridView1.ReadOnly = true;
+            this.elevatorDBDataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+            this.elevatorDBDataGridView1.Size = new System.Drawing.Size(478, 420);
+            this.elevatorDBDataGridView1.TabIndex = 26;
+            // 
+            // dataGridViewTextBoxColumn4
+            // 
+            this.dataGridViewTextBoxColumn4.DataPropertyName = "ID";
+            this.dataGridViewTextBoxColumn4.HeaderText = "ID";
+            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            this.dataGridViewTextBoxColumn4.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn5
+            // 
+            this.dataGridViewTextBoxColumn5.DataPropertyName = "Time";
+            this.dataGridViewTextBoxColumn5.HeaderText = "Time";
+            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
+            this.dataGridViewTextBoxColumn5.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn6
+            // 
+            this.dataGridViewTextBoxColumn6.DataPropertyName = "Event";
+            this.dataGridViewTextBoxColumn6.HeaderText = "Event";
+            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
+            this.dataGridViewTextBoxColumn6.ReadOnly = true;
+            // 
+            // elevatorDBTableAdapter
+            // 
+            this.elevatorDBTableAdapter.ClearBeforeFill = true;
+            // 
+            // tableAdapterManager
+            // 
+            this.tableAdapterManager.BackupDataSetBeforeUpdate = false;
+            this.tableAdapterManager.ElevatorDBTableAdapter = this.elevatorDBTableAdapter;
+            this.tableAdapterManager.UpdateOrder = ElevatorDBDataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(896, 623);
+            this.ClientSize = new System.Drawing.Size(904, 623);
+            this.Controls.Add(this.elevatorDBDataGridView1);
+            this.Controls.Add(this.elevatorDBBindingNavigator);
             this.Controls.Add(this.doorR0);
             this.Controls.Add(this.doorL0);
             this.Controls.Add(this.doorOpen0);
@@ -383,8 +593,10 @@ namespace ElevatorSystem
             this.Controls.Add(this.pictureBox3);
             this.Controls.Add(this.wall1);
             this.Controls.Add(this.wall0);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
-            this.Text = "\\";
+            this.Text = "Elevator System";
+            this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.wall1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.wall0)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
@@ -401,6 +613,12 @@ namespace ElevatorSystem
             ((System.ComponentModel.ISupportInitialize)(this.doorR0)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.doorOpen0)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.elevator)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.elevatorDBBindingNavigator)).EndInit();
+            this.elevatorDBBindingNavigator.ResumeLayout(false);
+            this.elevatorDBBindingNavigator.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.elevatorDBBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.elevatorDBDataSet)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.elevatorDBDataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -410,17 +628,19 @@ namespace ElevatorSystem
 
         private void call0_Click(object sender, EventArgs e)
         {
-
-            //timer1.Start();
+            //Adds new call
             eSystem.callFloor0();
+            //New DB event switch pressed
+            updateDBCall(0);
 
         }
 
         private void call1_Click(object sender, EventArgs e)
         {
-            //timerTransition.Start();
-
+            //Adds new call
             eSystem.callFloor1();
+            //New DB event switch pressed
+            updateDBCall(1);
         }
 
 
@@ -458,6 +678,27 @@ namespace ElevatorSystem
         private System.Windows.Forms.PictureBox doorOpen0;
         private System.Windows.Forms.PictureBox elevator;
         private System.Windows.Forms.Timer doorCloseAnim;
+        private ElevatorDBDataSet elevatorDBDataSet;
+        private System.Windows.Forms.BindingSource elevatorDBBindingSource;
+        private ElevatorDBDataSetTableAdapters.ElevatorDBTableAdapter elevatorDBTableAdapter;
+        private ElevatorDBDataSetTableAdapters.TableAdapterManager tableAdapterManager;
+        private System.Windows.Forms.BindingNavigator elevatorDBBindingNavigator;
+        private System.Windows.Forms.ToolStripButton bindingNavigatorAddNewItem;
+        private System.Windows.Forms.ToolStripLabel bindingNavigatorCountItem;
+        private System.Windows.Forms.ToolStripButton bindingNavigatorDeleteItem;
+        private System.Windows.Forms.ToolStripButton bindingNavigatorMoveFirstItem;
+        private System.Windows.Forms.ToolStripButton bindingNavigatorMovePreviousItem;
+        private System.Windows.Forms.ToolStripSeparator bindingNavigatorSeparator;
+        private System.Windows.Forms.ToolStripTextBox bindingNavigatorPositionItem;
+        private System.Windows.Forms.ToolStripSeparator bindingNavigatorSeparator1;
+        private System.Windows.Forms.ToolStripButton bindingNavigatorMoveNextItem;
+        private System.Windows.Forms.ToolStripButton bindingNavigatorMoveLastItem;
+        private System.Windows.Forms.ToolStripSeparator bindingNavigatorSeparator2;
+        private System.Windows.Forms.ToolStripButton elevatorDBBindingNavigatorSaveItem;
+        private System.Windows.Forms.DataGridView elevatorDBDataGridView1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
     }
 
 

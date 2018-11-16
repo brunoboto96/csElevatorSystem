@@ -61,6 +61,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ElevatorDBDataSet.cs">
+      <DependentUpon>ElevatorDBDataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="ElevatorDBDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -92,8 +95,8 @@
     </None>
     <None Include="ElevatorDBDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>ElevatorDBDataSet.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>ElevatorDBDataSet.Designer.cs</LastGenOutput>
     </None>
     <None Include="ElevatorDBDataSet.xss">
       <DependentUpon>ElevatorDBDataSet.xsd</DependentUpon>

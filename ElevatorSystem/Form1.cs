@@ -16,64 +16,118 @@ namespace ElevatorSystem
         ElevatorSystem eSystem;
         OleDbConnection con;
         OleDbCommand cmd;
+
+        ElevatorDBDataSet.ElevatorDBRow newESystemDBRow;
+        ElevatorDBDataSetTableAdapters.ElevatorDBTableAdapter eSystemTableAdapter;
+
+
         public Form1()
         {
             InitializeComponent();
             
-            
-            Console.WriteLine("Hellooo");
+            //Instatiate new ElevatorSystem
             eSystem = new ElevatorSystem(this.elevator.Location.Y, this.elevator.Location.X);
 
+            //Adjustments
+            this.elevator.Location = new Point(elevator.Location.X, this.elevator.Location.Y - 1);
+            this.eSystem.setY(this.elevator.Location.Y);
+            //
+
+            //DB Connection
             con = new OleDbConnection("Provider = Microsoft.Jet.OLEDB.4.0; Data Source = ElevatorDB.mdb");
 
             cmd = con.CreateCommand();
 
-            this.elevator.Location = new Point(elevator.Location.X, this.elevator.Location.Y - 1);
-            this.eSystem.setY(this.elevator.Location.Y);
+            
+            con.Open();
+            cmd.CommandText = "INSERT INTO `ElevatorDB` ( `Time`, `Event`) VALUES ('" + DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + "', 'All systems initialized!');";
+            cmd.Connection = con;
+            cmd.ExecuteNonQuery();
+            con.Close();
+            
+
+
+            // Create a new row.
+            /*
+            newESystemDBRow = elevatorDBDataSet.ElevatorDB.NewElevatorDBRow();
+            newESystemDBRow.Time = DateTime.Now;
+            newESystemDBRow.Event= "All systems initialized!";
+
+            // Add the row to the Region table
+            elevatorDBDataSet.ElevatorDB.Rows.Add(newESystemDBRow);
+
+            // Save the new row to the database
+            this.elevatorDBTableAdapter.Update(this.elevatorDBDataSet.ElevatorDB);
+            */
+
+            //elevatorDBTableAdapter.Insert(DateTime.Now, "All systems initialized!");
+
+            //elevatorDBTableAdapter.InsertQueryTest();
+            //elevatorDBDataSet.ElevatorDB.Rows.Add(DateTime.Now, "All systems initialized!");
+            //elevatorDBDataSet.ElevatorDB.NewRow();
+
+
+
+            try
+            {
+                newESystemDBRow = elevatorDBDataSet.ElevatorDB.NewElevatorDBRow();
+                newESystemDBRow.Time = DateTime.Now;
+                newESystemDBRow.Event = "All systems initialized!";
+
+                // Add the row to the Region table
+                elevatorDBDataSet.ElevatorDB.Rows.Add(newESystemDBRow);
+                this.Validate();
+                elevatorDBBindingSource.EndEdit();
+                elevatorDBTableAdapter.Update(elevatorDBDataSet.ElevatorDB);
+                MessageBox.Show("Update successful");
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show("Update failed");
+            }
+
 
         }
 
         private void timerCheckCalls_Tick(object sender, EventArgs e)
         {
-            
-            //Console.WriteLine("\n\n*** Checking System ***\n");
-
+            //checks if system is busy
             if (this.eSystem.isBusy()) {
-                //Console.WriteLine("System is busy at the moment trying again later..\n");
+                Console.WriteLine("System is busy at the moment trying again later..\n");
                 return;
             }
 
+            //system not busy
+            //sets current floor and moving direction
             eSystem.setFloor();
             Console.WriteLine("Current floor: " + eSystem.getFloor() );
             Console.WriteLine(eSystem.isMovingUp());
 
+
+            //checks calls for current floor
             if (eSystem.hasCalls(eSystem.getFloor()))
             {
-                //this.timerTransition.Start();
+                //locks system actions and sets lights accordingly
                 this.eSystem.setBusy(true);
                 setLights(getFloorLights(), Color.Green);
-                doorOpenAnim.Start();
+                setLights(this.controlPanelStatus, Color.Green);
 
+                //starts doors timer and animation
+                doorOpenAnim.Start();
+                timerDoorOpen.Start();
+                
                 
 
-
-
-
-                timerDoorOpen.Start();
-                con.Open();
-                cmd.CommandText = "INSERT INTO `ElevatorDB` ( `Time`, `Event`) VALUES ('" + DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + "', 'doors opened');";
-                cmd.Connection = con;
-                cmd.ExecuteNonQuery();
-                //MessageBox.Show("Record Submitted", "Congrats");
-                con.Close();
-
             } else {
+                //checks calls for other floor and sets lights to standby
                 int floor = eSystem.getFloor();
                 setAllLights(Color.DeepSkyBlue);
                 if (floor == 1)
                 {
+                //defines which floor to interact
                     if(eSystem.hasCalls(0))
                     {
+                        //locks system actions and starts moving
                         this.eSystem.setBusy(true);
                         this.eSystem.clearFloorCalls(0);
                         startTransition();
@@ -83,6 +137,7 @@ namespace ElevatorSystem
                 } else {
                     if (eSystem.hasCalls(1))
                     {
+                        //locks system actions and starts moving
                         this.eSystem.setBusy(true);
                         this.eSystem.clearFloorCalls(1);
                         startTransition();
@@ -93,11 +148,7 @@ namespace ElevatorSystem
                     }
                 }
             }
-            //this.timerCheckCalls.Stop();
-            //redundancy timers stop doors closed timer let this handle or stop this timer and start after doors closed timer
         }
-
-        
 
         public void startTransition()
         { 
@@ -110,38 +161,54 @@ namespace ElevatorSystem
             this.eSystem.setBusy(true);
             if (!eSystem.isMoving())
             {
-                this.elevator.Visible = false;
+                //movement has stoped
+                //updates the floor
                 eSystem.setFloor();
+
+                //updates the labels to show current floor
                 updateLabels(Convert.ToString(eSystem.getFloor()));
+
+                //stops the transition timer, disables the xray elevator from view
+                this.elevator.Visible = false;
                 timerTransition.Stop();
                 Console.WriteLine("X-ray Elevator is now: " + this.elevator.Visible);
+
+                //updates lights and DB
                 setLights(getFloorLights(), Color.Green);
                 setLights(this.controlPanelStatus, Color.Green);
+                updateDBFloor();
+
+                //opens doors animation and timer
                 timerDoorOpen.Start();
                 doorOpenAnim.Start();
-                Console.WriteLine(this.eSystem.getY());
             } else {
+                //elevator is moving
+                //sets control panel lights accordingly and enables xray view
                 setLights(this.controlPanelStatus, Color.Red);
                 Console.WriteLine("X-ray Elevator is currently: " + this.elevator.Visible);
                 this.elevator.Visible = true;
+
+                //sets boundaries between floors to prevent shooting of the sky or falling bellow the ground
                 if (eSystem.getY() > 350 || eSystem.getY() < 50)
                 {
                     eSystem.setMoving(false);
 
+                    //adjusts elevator to be ready to be moved again and breaks method execution
                     if (eSystem.getY() > 350) eSystem.setY(eSystem.getY() - 1);
                     else if(eSystem.getY() < 50) eSystem.setY(eSystem.getY() + 1);
-
                     this.elevator.Location = new System.Drawing.Point(135, eSystem.getY());
                     return;
                 }
 
                 if (eSystem.isMovingUp())
                 {
+                    //translates the elevator up
                     Console.WriteLine(this.elevator.Location.Y.ToString());
                     int y = this.elevator.Location.Y;
                     this.elevator.Location = new Point(elevator.Location.X, y - 1);
                     this.eSystem.setY(this.elevator.Location.Y);
                 } else {
+                    //translates the elevator down
                     Console.WriteLine(this.elevator.Location.Y.ToString());
                     int y = this.elevator.Location.Y;
                     this.elevator.Location = new Point(elevator.Location.X, y + 1);
@@ -150,34 +217,121 @@ namespace ElevatorSystem
             }
             
         }
-        
+
+        private void doorOpenAnim_Tick(object sender, EventArgs e)
+        {
+            //defines which door to interact
+            if (eSystem.getFloor() == 1)
+            {
+                //sets boundaries and starts animation
+                if (doorR1.Size.Width > 0)
+                {
+                    this.doorR1.Size = new System.Drawing.Size(this.doorR1.Size.Width - 10, 160);
+                    this.doorR1.Location = new Point(this.doorR1.Location.X + 10, this.doorR1.Location.Y);
+                    this.doorL1.Size = new System.Drawing.Size(this.doorL1.Size.Width - 10, 160);
+
+                }
+                else
+                {
+                    this.doorR1.Size = new System.Drawing.Size(0, 160);
+                    this.doorR1.Location = new Point(eSystem.getDoorRx() + eSystem.getDoorW(), this.doorR1.Location.Y);
+                    this.doorL1.Size = new System.Drawing.Size(0, 160);
+                    this.doorL1.Location = new Point(eSystem.getDoorLx(), this.doorL1.Location.Y);
+
+                }
+            } else {
+                //sets boundaries and starts animation
+                if (doorR0.Size.Width > 0)
+                {
+                    this.doorR0.Size = new System.Drawing.Size(this.doorR0.Size.Width - 10, 160);
+                    this.doorR0.Location = new Point(this.doorR0.Location.X + 10, this.doorR0.Location.Y);
+                    this.doorL0.Size = new System.Drawing.Size(this.doorL0.Size.Width - 10, 160);
+
+                }
+                else
+                {
+                    this.doorR0.Size = new System.Drawing.Size(0, 160);
+                    this.doorR0.Location = new Point(eSystem.getDoorRx() + eSystem.getDoorW(), this.doorR0.Location.Y);
+                    this.doorL0.Size = new System.Drawing.Size(0, 160);
+                    this.doorL0.Location = new Point(eSystem.getDoorLx(), this.doorL0.Location.Y);
+                }
+            }
+        }
+
         private void timerDoorOpen_Tick(object sender, EventArgs e)
         {
+            //stops the animation and stops itself from running again
             doorOpenAnim.Stop();
-            //this.elevator.SizeMode = PictureBoxSizeMode.Normal;
             timerDoorOpen.Stop();
+
+            //starts animation and starts timer
             timerDoorClosing.Start();
             doorCloseAnim.Start();
+
+            //Clears calls for that floor and starts accepting switch presses again
             eSystem.clearFloorCalls(eSystem.getFloor());
             
         }
 
+        private void doorCloseAnim_Tick(object sender, EventArgs e)
+        {
+            //defines which door to interact
+            if (eSystem.getFloor() == 1)
+            {
+                //sets boundaries and starts animation
+                if (doorR1.Size.Width <= eSystem.getDoorW())
+                {
+                    this.doorR1.Size = new System.Drawing.Size(this.doorR1.Size.Width + 5, 160);
+                    this.doorR1.Location = new Point(this.doorR1.Location.X - 5, this.doorR1.Location.Y);
+                    this.doorL1.Size = new System.Drawing.Size(this.doorL1.Size.Width + 5, 160);
+
+                }
+                else
+                {
+                    this.doorR1.Size = new System.Drawing.Size(eSystem.getDoorW(), 160);
+                    this.doorR1.Location = new Point(eSystem.getDoorRx(), this.doorR1.Location.Y);
+                    this.doorL1.Size = new System.Drawing.Size(eSystem.getDoorW(), 160);
+                }
+            }
+            else
+            {
+                //sets boundaries and starts animation
+                if (doorR0.Size.Width <= eSystem.getDoorW())
+                {
+                    this.doorR0.Size = new System.Drawing.Size(this.doorR0.Size.Width + 5, 160);
+                    this.doorR0.Location = new Point(this.doorR0.Location.X - 5, this.doorR0.Location.Y);
+                    this.doorL0.Size = new System.Drawing.Size(this.doorL0.Size.Width + 5, 160);
+
+                }
+                else
+                {
+                    this.doorR0.Size = new System.Drawing.Size(eSystem.getDoorW(), 160);
+                    this.doorR0.Location = new Point(eSystem.getDoorRx(), this.doorR0.Location.Y);
+                    this.doorL0.Size = new System.Drawing.Size(eSystem.getDoorW(), 160);
+                }
+            }
+        }
+
         private void timerDoorClosing_Tick(object sender, EventArgs e)
         {
+            //stops the animation and stops itself from running again
             timerDoorClosing.Stop();
             doorCloseAnim.Stop();
+
+            //checks if the doors needs to be reopen
             if (eSystem.hasCalls(eSystem.getFloor()))
             {
-                timerDoorOpen.Start(); //method to start animation and timer
+                setLights(this.controlPanelStatus, Color.Green);
+                timerDoorOpen.Start();
                 doorOpenAnim.Start();
             } else {
+                //no calls for that floor
+                //sets the lights accordingly
                 setLights(getFloorLights(), Color.Green);
                 setLights(this.controlPanelStatus, Color.DeepSkyBlue);
             
+                //liberates the system to act upon new calls
                 this.eSystem.setMoving(false);
-
-                //this.elevator.SizeMode = PictureBoxSizeMode.StretchImage;
-
                 this.eSystem.setBusy(false); 
             }
             
@@ -214,95 +368,43 @@ namespace ElevatorSystem
 
         }
 
-        private void doorOpenAnim_Tick(object sender, EventArgs e)
+        private void updateDBFloor()
         {
-            Console.WriteLine("door x: " + this.doorR1.Location.X);
-            Console.WriteLine("door szie: " + this.doorR1.Size.Width);
-
-            if (eSystem.getFloor() == 1) {
-                if (doorR1.Size.Width > 0)
-                {
-                    this.doorR1.Size = new System.Drawing.Size(this.doorR1.Size.Width - 10, 160);
-                    this.doorR1.Location = new Point(this.doorR1.Location.X + 10, this.doorR1.Location.Y);
-                    this.doorL1.Size = new System.Drawing.Size(this.doorL1.Size.Width - 10, 160);
-                    //this.doorL1.Location = new Point(this.doorL1.Location.X - 10, this.doorL1.Location.Y);
-
-                }
-                else
-                {
-                    this.doorR1.Size = new System.Drawing.Size(0, 160);
-                    this.doorR1.Location = new Point(eSystem.getDoorRx() + eSystem.getDoorW(), this.doorR1.Location.Y);
-                    this.doorL1.Size = new System.Drawing.Size(0, 160);
-                    this.doorL1.Location = new Point(eSystem.getDoorLx(), this.doorL1.Location.Y);
-
-                    Console.WriteLine("doorrx: " + eSystem.getDoorRx());
-                }
-            } else {
-                if (doorR0.Size.Width > 0)
-                {
-                    this.doorR0.Size = new System.Drawing.Size(this.doorR0.Size.Width - 10, 160);
-                    this.doorR0.Location = new Point(this.doorR0.Location.X + 10, this.doorR0.Location.Y);
-                    this.doorL0.Size = new System.Drawing.Size(this.doorL0.Size.Width - 10, 160);
-                    //this.doorL0.Location = new Point(this.doorL0.Location.X - 10, this.doorL0.Location.Y);
-
-                }
-                else
-                {
-                    this.doorR0.Size = new System.Drawing.Size(0, 160);
-                    this.doorR0.Location = new Point(eSystem.getDoorRx() + eSystem.getDoorW(), this.doorR0.Location.Y);
-                    this.doorL0.Size = new System.Drawing.Size(0, 160);
-                    this.doorL0.Location = new Point(eSystem.getDoorLx(), this.doorL0.Location.Y);
-                }
-            }
+            con.Open();
+            cmd.CommandText = "INSERT INTO `ElevatorDB` ( `Time`, `Event`) VALUES ('" + DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + "', 'Elevator is now on Floor: " + eSystem.getFloor() + "');";
+            cmd.Connection = con;
+            cmd.ExecuteNonQuery();
+            con.Close();
+            Console.WriteLine("db floor");
         }
 
-        private void doorCloseAnim_Tick(object sender, EventArgs e)
+        private void updateDBCall(int floor)
         {
-            Console.WriteLine("Cdoor x: " + this.doorR1.Location.X);
-            if (eSystem.getFloor() == 1)
-            {
-                if (doorR1.Size.Width <= eSystem.getDoorW())
-                {
-                    this.doorR1.Size = new System.Drawing.Size(this.doorR1.Size.Width + 5, 160);
-                    this.doorR1.Location = new Point(this.doorR1.Location.X - 5, this.doorR1.Location.Y);
-                    this.doorL1.Size = new System.Drawing.Size(this.doorL1.Size.Width + 5, 160);
-                    //this.doorL1.Location = new Point(this.doorL1.Location.X + 10, this.doorL1.Location.Y);
-
-                }
-                else
-                {
-                    this.doorR1.Size = new System.Drawing.Size(eSystem.getDoorW(), 160);
-                    this.doorR1.Location = new Point(eSystem.getDoorRx(), this.doorR1.Location.Y);
-                    this.doorL1.Size = new System.Drawing.Size(eSystem.getDoorW(), 160);
-                    //this.doorL1.Location = new Point(eSystem.getDoorLx(), this.doorL1.Location.Y);
-                }
-            }
-            else
-            {
-                if (doorR0.Size.Width <= eSystem.getDoorW()) 
-                {
-                    this.doorR0.Size = new System.Drawing.Size(this.doorR0.Size.Width + 5, 160);
-                    this.doorR0.Location = new Point(this.doorR0.Location.X - 5, this.doorR0.Location.Y);
-                    this.doorL0.Size = new System.Drawing.Size(this.doorL0.Size.Width + 5, 160);
-                    //this.doorL0.Location = new Point(this.doorL0.Location.X - 10, this.doorL0.Location.Y);
-
-                }
-                else
-                {
-                    this.doorR0.Size = new System.Drawing.Size(eSystem.getDoorW(), 160);
-                    this.doorR0.Location = new Point(eSystem.getDoorRx(), this.doorR0.Location.Y);
-                    this.doorL0.Size = new System.Drawing.Size(eSystem.getDoorW(), 160);
-                    //this.doorL0.Location = new Point(eSystem.getDoorLx(), this.doorL0.Location.Y);
-                }
-            }
+            con.Open();
+            cmd.CommandText = "INSERT INTO `ElevatorDB` ( `Time`, `Event`) VALUES ('" + DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + "', 'The floor " + floor + " switch has been pressed. Adding a call. Calls for floor 0:  "
+                + eSystem.getCalls0() + " | Calls for floor 1: " + eSystem.getCalls1() + "');";
+            cmd.Connection = con;
+            cmd.ExecuteNonQuery();
+            con.Close();
+            Console.WriteLine( "DB call ");
         }
 
-        private void doorOpen_Click(object sender, EventArgs e)
+        private void elevatorDBBindingNavigatorSaveItem_Click(object sender, EventArgs e)
         {
+            this.Validate();
+            this.elevatorDBBindingSource.EndEdit();
+            this.tableAdapterManager.UpdateAll(this.elevatorDBDataSet);
 
         }
 
-        private void doorR0_Click(object sender, EventArgs e)
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            // TODO: This line of code loads data into the 'elevatorDBDataSet.ElevatorDB' table. You can move, or remove it, as needed.
+            this.elevatorDBTableAdapter.Fill(this.elevatorDBDataSet.ElevatorDB);
+
+        }
+
+        private void labelFloor1_Click(object sender, EventArgs e)
         {
 
         }
@@ -312,10 +414,10 @@ namespace ElevatorSystem
     {
         //field members
         private int Y, Floor, Calls0, Calls1, DoorW, DoorRx, DoorLx;
-        private bool Open, Moving, Call0, Call1, MovingUp, Busy;
+        private bool Moving, Call0, Call1, MovingUp, Busy;
         private string Floor0State, Floor1State; //array/construct floorstates
         
-        //img
+       
 
         //Constructor
         public ElevatorSystem(int y, int x)
@@ -376,11 +478,6 @@ namespace ElevatorSystem
 
         public void setFloor1State(string state) => this.Floor1State = state;
 
-        
-
-
-
-
         //logic
         public void callFloor0()
         {
@@ -439,8 +536,5 @@ namespace ElevatorSystem
                     break;
             }
         }
-
-        
-
     }
 }
