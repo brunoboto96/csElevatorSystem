@@ -1,0 +1,15 @@
+C:\Users\bboto\source\repos\ElevatorSys\ElevatorSys\bin\Debug\ElevatorSys.exe.config
+C:\Users\bboto\source\repos\ElevatorSys\ElevatorSys\bin\Debug\ElevatorSys.exe
+C:\Users\bboto\source\repos\ElevatorSys\ElevatorSys\bin\Debug\ElevatorSys.pdb
+C:\Users\bboto\source\repos\ElevatorSys\ElevatorSys\obj\Debug\ElevatorSys.csprojAssemblyReference.cache
+C:\Users\bboto\source\repos\ElevatorSys\ElevatorSys\obj\Debug\ElevatorSys.Form1.resources
+C:\Users\bboto\source\repos\ElevatorSys\ElevatorSys\obj\Debug\ElevatorSys.Properties.Resources.resources
+C:\Users\bboto\source\repos\ElevatorSys\ElevatorSys\obj\Debug\ElevatorSys.csproj.GenerateResource.cache
+C:\Users\bboto\source\repos\ElevatorSys\ElevatorSys\obj\Debug\ElevatorSys.csproj.CoreCompileInputs.cache
+C:\Users\bboto\source\repos\ElevatorSys\ElevatorSys\obj\Debug\ElevatorSys.exe
+C:\Users\bboto\source\repos\ElevatorSys\ElevatorSys\obj\Debug\ElevatorSys.pdb
+C:\Users\bboto\source\repos\ElevatorSys\ElevatorSys\bin\Debug\Db1.mdb
+C:\Users\bboto\source\repos\ElevatorSys\ElevatorSys\bin\Debug\ElevatorSys.exe.manifest
+C:\Users\bboto\source\repos\ElevatorSys\ElevatorSys\bin\Debug\ElevatorSys.application
+C:\Users\bboto\source\repos\ElevatorSys\ElevatorSys\obj\Debug\ElevatorSys.exe.manifest
+C:\Users\bboto\source\repos\ElevatorSys\ElevatorSys\obj\Debug\ElevatorSys.application
